@@ -1,0 +1,52 @@
+# change docker root
+
+for Centos, you should modify:
+/etc/sysconfig/docker
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false -g /new/path/to/docker'
+
+# ---------------------------------------------------------------------------------
+
+step 1: start docker service
+sudo service docker start
+
+step 2: start nvidia-docker
+sudo nvidia-docker-plugin -d /usr/local/nvidia-driver
+
+# close docker service
+sudo service docker stop
+
+# ---------------------------------------------------------------------------------
+
+# how to use "Dockerfile"
+choose specified Dockerfile, such as Dockerfile-python3.6.1, copy the content of that file and paste it to the "Dockerfile" file.
+
+
+# build
+sudo docker build -t="<tag name>" .
+
+# run image
+sudo docker run -it <image ID>
+
+# run in terminal
+sudo docker run -it <image ID> bash
+
+# show all images
+sudo docker images
+
+# delete image
+sudo docker rmi -f <image ID>
+
+#delete container
+sudo docker rm -f <container ID>
+
+# ---------------------------------------------------------------------------------
+
+# tensorflow
+
+step 1: tensorflow-gpu
+  nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
+
+step 2
+  sudo docker run -it <image id> bash
+
+
