@@ -1,5 +1,12 @@
 FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 
+# Note:
+# tensorflow request CUDA 8 with cudnn 6, but the latest version of tensorflow may not support
+
+RUN pip3 install --upgrade pip
+
+RUN apt-get install git -y
+
 # python package
 RUN pip install numpy
 
