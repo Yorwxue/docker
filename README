@@ -33,11 +33,30 @@ sudo docker run -it <image ID> bash
 # show all images
 sudo docker images
 
+# show all containers
+sudo docker ps -a
+
 # delete image
 sudo docker rmi -f <image ID>
 
-#delete container
+# delete container
 sudo docker rm -f <container ID>
+
+# volumn, mount
+sudo docker run -it --privileged=true -v <path/to/target/directory/of/host>:<directory/of/container> <image ID>
+
+# ---------------------------------------------------------------------------------
+
+# how to start jupyter
+# into container
+sudo docker run -it -p 8888:8888 <image ID>
+
+# creat directory [option]
+mkdir workspace
+cd workspace
+
+# start jupyter
+jupyter notebook --ip 0.0.0.0 --no-browser --allow-root
 
 # ---------------------------------------------------------------------------------
 

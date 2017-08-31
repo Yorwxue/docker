@@ -1,0 +1,42 @@
+FROM ubuntu16.04/python3.5/cuda8
+MAINTAINER clliao <runway3611@gmail.com>
+
+# Note:
+# install opencv 3.1.0
+# os: ubuntu 16.04
+# env: python 3.5 (opencv has conflict with python3.6)
+# support CUDA 8, but may not support the latest version of CUDA
+# (Normally opencv don't support cuda8, but the method here is a special case.) 
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    cmake  \
+    cmake-qt-gui
+
+RUN apt install --assume-yes build-essential cmake git pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy && \
+    apt install libhdf5-dev -y && \
+    apt install --assume-yes libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev && \
+    apt install --assume-yes libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev && \
+    apt install --assume-yes libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev && \
+    apt install --assume-yes libvorbis-dev libxvidcore-dev v4l-utils
+
+RUN mkdir /open_source/opencv-3.1.0 && \
+    cd /open_source/opencv-3.1.0 && \
+    git clone http://github.com/daveselinger/opencv.git . && \
+    git checkout 3.1.0-with-cuda8 && \
+    mkdir build && \
+    cd build && \
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D WITH_CUDA=ON \
+          -D WITH_CUBLAS=ON \
+          -D WITH_TBB=ON \
+          -D WITH_V4L=ON \
+          -D WITH_QT=ON \
+          -D WITH_OPENGL=ON \
+          -D BUILD_PERF_TESTS=OFF \
+          -D BUILD_TESTS=OFF \
+          -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES" .. && \
+    make -j $(($(nproc) + 1)) && \
+    make install
