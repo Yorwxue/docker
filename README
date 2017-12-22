@@ -16,25 +16,36 @@ sudo nvidia-docker-plugin -d /usr/local/nvidia-driver
 sudo service docker stop
 
 # ---------------------------------------------------------------------------------
+# -d : run in background
+# run : create + start
+# exec : start
+# --name=''
 
 # how to use "Dockerfile"
 choose specified Dockerfile, such as Dockerfile-python3.6.1, copy the content of that file and paste it to the "Dockerfile" file.
 
 
-# build
+# build (from docker file to image)
 sudo docker build -t="<tag name>" .
+
 
 # run image
 sudo docker run -it <image ID>
+sudo docker run -d <image ID>
+
 
 # run in terminal
-sudo docker run -it <image ID> bash
+sudo docker run -it <image ID> bash  # from image to contain
+sudo docker exec -it <container ID> bash  # from contain
+
 
 # show all images
 sudo docker images
 
+
 # show all containers
 sudo docker ps -a
+
 
 # delete image
 sudo docker rmi -f <image ID>
@@ -42,8 +53,13 @@ sudo docker rmi -f <image ID>
 # delete container
 sudo docker rm -f <container ID>
 
+
 # volumn, mount
-sudo docker run -it --privileged=true -v <path/to/target/directory/of/host>:<directory/of/container> <image ID>
+sudo docker run -it (--privileged=true) -v <path/to/target/directory/of/host>:<directory/of/container> <image ID>  # from image to contain
+sudo docker exec -it -v <container ID>  # from contain
+
+
+sudo nvidia-docker run -d --name <container/name> -v <path/to/target/directory/of/host>:<directory/of/container> -p <port/of/host>:<port/of/docker> <image/name>
 
 # ---------------------------------------------------------------------------------
 
