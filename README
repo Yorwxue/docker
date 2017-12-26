@@ -33,6 +33,9 @@ sudo docker build -t="<tag name>" .
 sudo docker run -it <image ID>
 sudo docker run -d <image ID>
 
+# awake up
+sudo docker restart <container/name>
+
 
 # run in terminal
 sudo docker run -it <image ID> bash  # from image to contain
